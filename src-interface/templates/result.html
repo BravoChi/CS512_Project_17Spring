@@ -1,0 +1,108 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>SetSearch</title>
+
+<!-- highlightjs.org -->
+<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.9.0/styles/default.min.css">
+
+<!-- Customized CSS -->
+<link href="{{url_for('static', filename='css/style.css')}}" rel="stylesheet">
+
+<!-- Mark JS -->
+<script src="{{url_for('static', filename='js/mark.js')}}"></script>
+
+{% endblock %}
+
+{% block content %}
+<div class="container" id="highlightArea">
+	<div class="row">
+		<div class="col-md-12">
+			<!-- Search Box -->
+			<div><center>
+	            <form action="search" method="post">
+	                <div class="input-group col-md-10">
+	                    <input type="text" class="form-control input-lg" name="inputData" value="{% for each_keyword in data.highlight_term_list %}{{ each_keyword }} {% endfor %}">
+	                    <span class="input-group-btn">
+	                        <button class="btn btn-primary btn-lg" type="submit" value="Submit">
+	                            <i class="glyphicon glyphicon-search"></i>
+	                        </button>
+	                    </span>
+	                </div>
+	            </form>
+		    </center></div>
+		    <center><p style="color: #808080; ">Displayed from 1 to {{data.hits.hits|length}} of <font color="orange">{{ data.hits.total }}</font> matched papers ( <font color="orange">{{ data.took }}</font> milliseconds )</p></center>
+			<br>
+		    <!-- Result Left: Search Result -->
+		    <div class="context">
+	            <div class="col-md-8">
+	            	{% for each_hit_dict in data.hits.hits %}
+					<ul class="list-group">					
+						<li class="list-group-item">
+						  	<h4>{{ each_hit_dict._source.title }}</h4>
+						  	<div class="context_nohighlight_{{loop.index0}}">
+							  	<p class="p1" style="margin-bottom: 2px; color: #808080; "><i> 
+							  	<b>Authors</b>: 
+							  	{% if each_hit_dict._source.author_list|length > 0 %}
+							  		{% for each_author in each_hit_dict._source.author_list%}
+							  			{{each_author}}
+							  		{% endfor %}
+							  	{% endif %}
+							  	 | 
+							  	 <b>Journal</b>:
+							  	{% if each_hit_dict._source.journal_name|length > 0 %}
+							  		{{each_hit_dict._source.journal_name}}
+							  	{% endif %}
+							  	 | 
+							  	{% if each_hit_dict._source.date != 0 %}
+							  		<b>Year</b>: 
+							  		{{each_hit_dict._source.date}} 
+							  	{% endif %}
+							  	</i></p>
+							</div>
+						  	<p style="margin-bottom: 2px;"><b>Abstract:</b> {{ each_hit_dict._source.abstract }}</p>
+						</li>	
+					</ul>
+					{% endfor %}	
+				</div>
+			</div>
+			<!-- Result Right: Search Statistics -->
+			<div class="col-md-4">
+            	<div class="context_entities">
+	            	<!-- Detected entities in query -->
+					<ul class="list-group">
+					  <li class="list-group-item list-group-item-info active">
+					  	<b>Detected entities in query</b>
+					  </li>
+					  <li class="list-group-item">
+						  {% for each_keyword in data.highlight_term_list %}
+						  <font size="4"><b>{{each_keyword}}</b></font>
+						  {% endfor %}			  
+					  </li>
+					</ul>
+				</div>
+				<!-- Frequent entities in top results -->
+                <div id="right-col">
+                    <!-- Dynamically Added In result.js -->
+                </div>				
+			</div>
+			<!-- Footer -->
+			<div class="col-md-12">
+		  		<center><br/><p>Copyright &copy; SetSearch DMG @ UIUC. 2017. All Rights Reserved. <br/><br/></p></center>
+		  	</div>
+
+
+	    </div>
+	</div>
+</div>
+
+
+<!-- Customzed JS -->
+<script src="{{url_for('static', filename='js/result.js')}}"></script>
+
+<!-- Run JS with Variables -->
+<script type="text/javascript"> highlightEntity({{data|tojson}}) </script>  
+
+{% endblock %}

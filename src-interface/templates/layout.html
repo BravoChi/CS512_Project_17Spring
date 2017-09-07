@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang='en'>
+    <head>
+      <link rel="shortcut icon" href="http://cs.illinois.edu/sites/all/themes/csdept/favicon.ico" type="image/vnd.microsoft.icon"/>
+      <!-- Foundation CSS -->
+      <link href="http://hanjinda.github.io/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+      
+      <!-- Bootstrap core CSS -->
+      <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/style.css') }}">
+      {% block head %}{% endblock %}
+    </head>
+
+    <body>
+        <!-- Nav -->   
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <a class="navbar-brand" href={{ url_for('index') }}>SetSearch</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+              <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+            </ul>
+            <ul class="nav navbar-nav  navbar-right">
+              <li><a href={{ url_for('index') }}>Home</a></li>
+              <li><a href={{ url_for('example') }}>Example</a></li>
+              <li><a href={{ url_for('result') }}>Result</a></li>
+              <!-- <li><a href="search">API</a></li> -->
+              <li><a href="https://github.com/hanjinda/SetSeatch_Web_System">Github</a></li>
+            </ul>           
+          </div>
+        </nav>
+
+        <!-- Body -->
+        {% block content %}{% endblock %}
+    </body>
+    <!-- Attach React components -->
+    <!--
+    <script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+    <script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+    <script src="http://hanjinda.github.io/foundation/css/jquery.js"></script>
+    <script src="http://hanjinda.github.io/foundation/css/what-input.js"></script>
+    <script src="http://hanjinda.github.io/bootstrap/js/bootstrap.min.js"></script>
+    <script src="http://hanjinda.github.io/bootstrap/js/npm.js"></script>
+    -->
+    <!-- Customized JS -->
+    <!--
+    <script type="text/js">
+        var myGeocode = {{ results }};
+    </script>
+    -->
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <!--
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    -->
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <!--
+    <script src="assets/js/ie10-viewport-bug-workaround.js"></script>
+    -->
+</html>

@@ -1,0 +1,51 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
+<title>SetSearch</title>
+
+<!-- Customized CSS -->
+<!--
+<link href="{{url_for('static', filename='SetSearch.css')}}" rel="stylesheet">
+<style type="text/css"></style>
+-->
+{% endblock %}
+
+{% block content %}
+<!-- Main -->
+<div class="container">
+	<div class="row">
+        <div class="col-md-12">
+			<div id="main"></div>
+			<br><br>
+			<center>
+        		<a href={{ url_for('index') }}><img src="{{url_for('static', filename='img/search.png')}}" width="250"></a>
+    			<h1>SetSearch</h1>
+    		</center>
+    		<br/>
+            <div ><center>
+            	<form action="search" method="post">
+	                <div class="input-group col-md-8">
+	                    <input type="text" class="form-control input-lg" name="inputData" placeholder="e.g. GABP, TERT, CD11b, cancer">
+	                    <span class="input-group-btn">
+	                        <button class="btn btn-info btn-lg" type="submit" value="Submit">
+	                            <i class="glyphicon glyphicon-search"></i>
+	                        </button>
+	                    </span>
+	                </div>
+	            </form></center>
+            </div>
+            <br>
+            <!-- <button class="btn btn-info btn-sl"  onclick="alert(myGeocode+'asdsad')" /> -->
+            <div id="results1">{{ results }}</div>
+            <!-- <script type="text/javascript">alert("hihihi");</script> -->
+			<br><br><br><br><br><br>
+			<div class="col-md-12">
+		  		<center><br/><p>Copyright &copy; SetSearch DMG @ UIUC. 2017. All Rights Reserved. </p></center>
+		  	</div>
+        </div>
+	</div>
+</div>
+{% endblock %}
+

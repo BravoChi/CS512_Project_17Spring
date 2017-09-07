@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="http://cs.illinois.edu/sites/all/themes/csdept/favicon.ico" type="image/vnd.microsoft.icon" />
+		<title>SetSearch</title>
+
+		<!-- Foundation CSS -->
+		<link href="http://hanjinda.github.io/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="http://hanjinda.github.io/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- highlightjs.org -->
+		<link rel="stylesheet" href="//cdn.jsdelivr.net/highlight.js/9.9.0/styles/default.min.css">
+
+
+		<!-- Customized CSS -->
+		<link href="{{url_for('static', filename='SetSearch.css')}}" rel="stylesheet">
+        <style type="text/css">
+             .highlight{
+				background-color:yellow;
+			}
+			mark{
+			    background: orange;
+			    color: black;
+			    padding: 0px;
+			}
+			mark.a{
+			    background: yellow;
+			    color: black;
+			}
+			mark.b{
+			    background: lightgreen;
+			    color: black;
+			}
+			mark.c{
+			    background: lightpink;
+			    color: black;
+			}
+			mark.d{
+			    background: lightblue;
+			    color: black;
+			}
+			mark.e{
+			    background: #ff6666;
+			    color: black;
+			}
+			mark.f{
+			    background: #ff00ff;
+			    color: black;
+			}
+			mark.g{
+			    background: #669999;
+			    color: black;
+			}
+			mark.h{
+			    background: #dfbf9f;
+			    color: black;
+			}
+			mark.i{
+			    background: #99ffcc;
+			    color: black;
+			}
+			mark.j{
+			    background: #00ffff;
+			    color: black;
+			}
+			mark.k{
+			    background: #df9f9f;
+			    color: black;
+			}
+			mark.r{
+			    background: #ff0000;
+			    color: black;
+			}						
+        </style>
+
+
+	</head>
+
+	<body>	
+		<!-- Nav -->   
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="http://localhost:5000/">SetSearch</a>
+		    </div>
+
+		    <ul class="nav navbar-nav navbar-right">
+		      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+		      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		    </ul>
+		    <ul class="nav navbar-nav  navbar-right">
+		      <li class="active"><a href="http://localhost:5000/">Home</a></li>
+		      <li><a href="http://hanjinda.github.io/demo/SetSearch_Example/">Example</a></li>
+		      <li><a href="sampledata">SampleData</a></li>
+		      <!-- <li><a href="search">API</a></li> -->
+		      <li><a href="https://github.com/hanjinda/SetSeatch_Web_System">Github</a></li>
+		    </ul>		    
+		  </div>
+		</nav>
+
+		<div class="contain-to-grid sticky">
+		  <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+		    	<div id="header"></div>
+		    	<div id="nav"></div>
+		  </nav>
+		</div>
+
+		<!-- Main -->
+		<div class="container" id="highlightArea">
+			<div class="row">
+		        <div class="col-md-12">
+					<div id="main"></div>
+<!-- 					<br/>
+					<center>
+		        		<a href="http://localhost:5000/"><img src="{{url_for('static', filename='search.png')}}" width="120" /></a>
+		    			<h2>SetSearch</h2>
+		    		</center>
+		    		<br/> -->
+		    		<br />
+		            <div ><center>
+		            	<form action="search" method="post">
+			                <div class="input-group col-md-10">
+			                    <input type="text" id="keywords" class="form-control input-lg" name="inputData" value="{% for each_keyword in output_json.highlight_term_list %}{{ each_keyword.0 }} {% endfor %}"/>
+			                    <span class="input-group-btn">
+			                        <button class="btn btn-primary btn-lg" type="submit" value="Submit">
+			                            <i class="glyphicon glyphicon-search"></i>
+			                        </button>
+			                    </span>
+			                </div>
+			            </form></center>
+		            </div>
+		         
+		            <center><p style="color: #808080; ">Displayed from 1 to {{output_json.hits.hits|length}} of <font color="orange">{{ output_json.hits.total }}</font> matched papers ( <font color="orange">{{ output_json.took }}</font> milliseconds )</p></center>
+					<br/>
+
+					<!-- Result Left -->
+					<div class="context">
+			            <div class="col-md-8">
+			            	{% for each_hit_dict in output_json.hits.hits %}
+							<ul class="list-group">
+								
+								<li class="list-group-item">
+								  	<h4>{{ each_hit_dict._source.title }}</h4>
+								  	<div class="context_nohighlight_{{loop.index0}}">
+									  	<p class="p1" style="margin-bottom: 2px; color: #808080; "><i> 
+									  	<b>Authors</b>: 
+									  	{% if each_hit_dict._source.author_list|length > 0 %}
+									  		{% for each_author in each_hit_dict._source.author_list%}
+									  			{{each_author}}
+									  		{% endfor %}
+									  	{% endif %}
+									  	 | 
+									  	 <b>Journal</b>:
+									  	{% if each_hit_dict._source.journal_name|length > 0 %}
+									  		{{each_hit_dict._source.journal_name}}
+									  	{% endif %}
+									  	 | 
+									  	{% if each_hit_dict._source.date != 0 %}
+									  		<b>Year</b>: 
+									  		{{each_hit_dict._source.date}} 
+									  	{% endif %}
+									  	</i></p>
+									</div>
+								  	<p style="margin-bottom: 2px;"><b>Abstract:</b> {{ each_hit_dict._source.abstract }}</p>
+								  	<!-- <p class="p1" style="margin-bottom:1px;"><b>Matched terms:</b> </p> -->
+								</li>
+								
+							</ul>
+							{% endfor %}	
+						</div>
+					</div>
+
+					<!-- Result Right -->
+		            <div class="col-md-4">
+		            	<div class="context_entities">
+			            	<!-- Detected entities in query -->
+							<ul class="list-group">
+							  <li class="list-group-item list-group-item-info active">
+							  	<b>Detected entities in query</b>
+							  </li>
+							  <li class="list-group-item">
+								  {% for each_keyword in output_json.highlight_term_list %}
+								  <!-- <span class="label label-danger" style="margin-left:5px; font-size:14px;"></span> -->
+								  <font size="4"><b>{{each_keyword.0}}   </b>  </font>
+								  {% endfor %}			  
+							  </li>
+							</ul>
+						</div>
+
+						<!-- Frequent gene entities in top results -->
+						<ul class="list-group">
+						  	<li class="list-group-item list-group-item-info active" href="#">
+						  		<b>Frequent gene entities in top results </b>
+						  	</li>
+						  	<li class="list-group-item" href="#">
+                            	<span class="badge">116</span>TERT
+	                        </li>
+	                        <li class="list-group-item" href="#">
+	                            <span class="badge">13</span>telomerase reverse transcriptase
+	                        </li>
+	                        <li class="list-group-item" href="#">
+	                            <span class="badge">12</span>CD11b
+	                        </li>
+	                        <li class="list-group-item" href="#">BRAF
+	                            <span class="badge">11</span>
+	                        </li>
+	                        <li class="list-group-item" href="#">...</li>
+						</ul>
+
+						<!-- Frequent disease entities in top results -->
+						<ul class="list-group">
+						  	<li class="list-group-item list-group-item-info active" href="#">
+						  		<b>Frequent disease entities in top results </b>
+						  	</li>
+	                        <li class="list-group-item">cancer
+	                            <span class="badge">41</span>
+	                        </li>
+	                        <li class="list-group-item">TC
+	                            <span class="badge">9</span>
+	                        </li>                         
+	                        <li class="list-group-item">
+	                            <span class="badge">9</span>tumor
+	                        </li>
+	                        <li class="list-group-item">
+	                            <span class="badge">8</span>UBC
+	                        </li>
+	                        <li class="list-group-item">...</li>   
+							</ul>				
+					</div>
+		           <!-- <pre><code class="html"> machine learning mining</code></pre> -->
+
+					<!-- for test input -->
+<!-- 				  	<div class="col-md-12">
+						<ul class="list-group">
+							<li class="list-group-item list-group-item-info active"><b>Outputs Testing</b> <a href="https://jsonformatter.curiousconcept.com/">JSON formater</a></li>
+							<li class="list-group-item">
+							  	{{results}}
+							</li>
+						</ul>
+				  	</div> -->
+
+
+
+		            <!-- Footer -->
+					<div class="col-md-12">
+				  		<center><br/><p>Copyright &copy; SetSearch DMG @ UIUC. 2017. All Rights Reserved. <br/><br/></p></center>
+				  	</div>
+				  	
+		        </div>
+			</div>
+		</div>
+
+	</body>
+	<!-- Attach React components -->
+  	<script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
+	<script type="text/javascript" src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+	<script type="text/javascript" src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+	<script type="text/javascript" src="http://static.runoob.com/assets/react/browser.min.js"></script>
+	<script type="text/javascript" src="http://hanjinda.github.io/foundation/css/jquery.js"></script>
+	<script type="text/javascript" src="http://hanjinda.github.io/foundation/css/what-input.js"></script>
+	<script type="text/javascript" src="http://hanjinda.github.io/bootstrap/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="http://hanjinda.github.io/bootstrap/js/npm.js"></script>
+	<!-- highlight search keywords -->
+	<!-- <script type="text/javascript" src="{{ url_for('static', filename='hilitor.js') }}"></script> -->
+	<script type="text/javascript" src="{{ url_for('static', filename='mark.js') }}"></script>
+	<!-- <script type="text/javascript" src="http://www.the-art-of-web.com/hilitor.js"></script> -->
+	<!-- <script src="http://johannburkard.de/resources/Johann/jquery.highlight-5.js"></script> -->
+
+	<!-- Customized JS -->
+	<!-- <script  type="text/javascript" href="{{url_for('static', filename='mystyle.js')}}" rel="stylesheet"></script> -->
+
+	<!-- Customized JS -->
+	<script type="text/javascript">
+
+		// [search to highlight]
+		// var word2Highlight;
+		// document.addEventListener("DOMContentLoaded", function(e) {
+		// 	word2Highlight = new Hilitor("highlightArea");
+		// 	word2Highlight.setMatchType("left");
+		// }, false);
+
+		// document.getElementById("keywords").addEventListener("keyup", function(e) {
+		// 	word2Highlight.apply(this.value);
+		// }, false);
+
+		// [load to highlight]
+		// var word2Highlight; // global variable
+		// document.addEventListener("DOMContentLoaded", function(e) {
+		// 	word2Highlight = new Hilitor("content");
+		// 	word2Highlight.apply("{% for each_keyword in output_json.highlight_term_list %}{{ each_keyword }} {% endfor %}");
+		// 	// word2Highlight.apply("machine learning");
+		// 	// word2Highlight.apply("mining");
+		// }, false);
+
+
+		//heighlight left
+		var context = document.querySelector(".context",".context_entities"); // requires an element with class "context" to exist
+		var instance = new Mark(context);
+		{% for each_keyword in output_json.highlight_term_list %}
+			instance.mark("{{ each_keyword.0 }}",{"separateWordSearch":false, "element":"mark","className":"{{each_keyword.1}}"});
+		{% endfor %}
+
+		//no heighlight on author, journel, year line
+		{% for each_hit_dict in output_json.hits.hits %}
+			var context = document.querySelector(".context_nohighlight_{{loop.index0}}",".context_entities"); // requires an element with class "context" to exist
+			var instance = new Mark(context);
+			{% for each_keyword in output_json.highlight_term_list %}
+				instance.unmark("{{ each_keyword.0 }}",{"separateWordSearch":false, "element":"mark","className":"{{each_keyword.1}}"});
+			{% endfor %}
+		{% endfor %}
+
+		//heighlight right
+		var context = document.querySelector(".context_entities"); // requires an element with class "context" to exist
+		var instance = new Mark(context);
+		{% for each_keyword in output_json.highlight_term_list %}
+			instance.mark("{{ each_keyword.0 }}",{"separateWordSearch":false, "element":"mark","className":"{{each_keyword.1}}"});
+		{% endfor %}
+	</script>
+</html>	

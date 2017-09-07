@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<link rel="shortcut icon" href="http://cs.illinois.edu/sites/all/themes/csdept/favicon.ico" type="image/vnd.microsoft.icon" />
+
+		<title>SetSearch</title>
+
+		<!-- Foundation CSS -->
+		<link href="http://hanjinda.github.io/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet">
+		<link href="http://hanjinda.github.io/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+		<!-- Customized CSS -->
+		<link href="{{url_for('static', filename='SetSearch.css')}}" rel="stylesheet">
+		<style type="text/css">
+		</style>
+	</head>
+
+	<body>	
+		<!-- Nav -->   
+		<nav class="navbar navbar-inverse">
+		  <div class="container-fluid">
+		    <div class="navbar-header">
+		      <a class="navbar-brand" href="http://localhost:5002/">SetSearch</a>
+		    </div>
+
+		    <ul class="nav navbar-nav navbar-right">
+		      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+		      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+		    </ul>
+		    <ul class="nav navbar-nav  navbar-right">
+		      <li class="active"><a href="http://localhost:5002/">Home</a></li>
+		      <li><a href="http://hanjinda.github.io/demo/SetSearch_Example/">Example</a></li>
+		      <li><a href="sampledata">SampleData</a></li>
+		      <!-- <li><a href="search">API</a></li> -->
+		      <li><a href="https://github.com/hanjinda/SetSeatch_Web_System">Github</a></li>
+		    </ul>		    
+		  </div>
+		</nav>
+
+		<div class="contain-to-grid sticky">
+		  <nav class="top-bar" data-topbar role="navigation" data-options="sticky_on: large">
+		    	<div id="header"></div>
+		    	<div id="nav"></div>
+		  </nav>
+		</div>
+
+		<!-- Main -->
+		<div class="container">
+			<div class="row">
+		        <div class="col-md-12">
+					<div id="main"></div>
+					<br/><br/>
+					<center>
+		        		<a href="http://localhost:5002/"><img src="{{url_for('static', filename='search.png')}}" width="250" />
+		    			<h1>SetSearch</h1>
+		    		</center>
+		    		<br/>
+		            <div ><center>
+		            	<form action="search" method="post">
+			                <div class="input-group col-md-8">
+			                    <input type="text" class="form-control input-lg" name="inputData" placeholder="e.g. GABP, TERT, CD11b, cancer"/>
+			                    <span class="input-group-btn">
+			                        <button class="btn btn-info btn-lg" type="submit" value="Submit">
+			                            <i class="glyphicon glyphicon-search"></i>
+			                        </button>
+			                    </span>
+			                </div>
+			            </form></center>
+		            </div>
+		            <br>
+		            <!-- <button class="btn btn-info btn-sl"  onclick="alert(myGeocode+'asdsad')" /> -->
+		            <div id="results1">{{ results }}</div>
+		            <!-- <script type="text/javascript">alert("hihihi");</script> -->
+					<br><br><br><br><br><br>
+					<div class="col-md-12">
+				  		<center><br/><p>Copyright &copy; SetSearch DMG @ UIUC. 2017. All Rights Reserved. </p></center>
+				  	</div>
+		        </div>
+			</div>
+		</div>
+
+	</body>
+	<!-- Attach React components -->
+  	<script type="text/javascript" src="{{ url_for('static', filename='bundle.js') }}"></script>
+	<script src="http://static.runoob.com/assets/react/react-0.14.7/build/react.min.js"></script>
+	<script src="http://static.runoob.com/assets/react/react-0.14.7/build/react-dom.min.js"></script>
+	<script src="http://static.runoob.com/assets/react/browser.min.js"></script>
+	<script src="http://hanjinda.github.io/foundation/css/jquery.js"></script>
+	<script src="http://hanjinda.github.io/foundation/css/what-input.js"></script>
+	<script src="http://hanjinda.github.io/bootstrap/js/bootstrap.min.js"></script>
+	<script src="http://hanjinda.github.io/bootstrap/js/npm.js"></script>
+
+	<!-- Customized JS -->
+	<script type="text/js">
+		var myGeocode = {{ results }};
+	</script>
+</html>	
