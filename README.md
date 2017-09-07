@@ -1,8 +1,6 @@
 # CS-512-SetSearch
 
 
-## TODO (Mar.30 -- Apr. 7) 
-
 1. Wenzhuang:
 	* familiar with codes and data format
 	* index the partial dataset with the same schema
