@@ -1,5 +1,10 @@
 # CS-512-SetSearch
 
+## Project Demo Video
+
+https://drive.google.com/file/d/0B-AWQ0RLgVkUVWk3bzhBb1JZVkE/view?usp=sharing
+
+## Job Distribution
 
 1. Wenzhuang:
 	* familiar with codes and data format
